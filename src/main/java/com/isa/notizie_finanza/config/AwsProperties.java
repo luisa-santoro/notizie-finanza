@@ -28,3 +28,6 @@ public class AwsProperties {
         return dotenv.get("AWS_BUCKET_NAME");
     }
 }
+
+
+//commentotest
