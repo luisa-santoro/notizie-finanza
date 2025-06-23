@@ -33,6 +33,10 @@ public class Notizia {
 
     private LocalDateTime dataPubblicazione;
 
+    @Column(nullable = false)
+    private String categoria;
+
+
     @Version
     private Integer version; // Campo per optimistic locking
     
@@ -102,4 +106,13 @@ public class Notizia {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
 }
