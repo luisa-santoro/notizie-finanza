@@ -28,6 +28,7 @@ public class NotiziaController {
     private final NotiziaService notiziaService;
     private final S3Service s3Service;
     private final UtenteService utenteService; // ➕ aggiunto per controllare il ruolo
+    private final OpenAiService aiService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NotiziaController.class);
