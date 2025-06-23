@@ -24,7 +24,7 @@ public class AuthController {
         this.utenteService = utenteService;
     }
 
-    // ✅ Login - verifica password hashata
+    //  Login - verifica password hashata
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> credenziali) {
         String username = credenziali.get("username");
@@ -40,7 +40,7 @@ public class AuthController {
         }
     }
 
-    // ✅ Endpoint per creare un utente e salvare la password hashata
+    // Endpoint per creare un utente e salvare la password hashata
    
 
 
@@ -55,7 +55,7 @@ public ResponseEntity<String> register(@RequestBody Utente nuovoUtente) {
         nuovoUtente.setRuolo("USER");
     }
 
-    utenteService.save(nuovoUtente);
+    utenteService.salvaUtente(nuovoUtente);
     return ResponseEntity.ok("Registrazione completata con successo!");
 }
 
