@@ -26,13 +26,15 @@ public class NotiziaController {
     private final NotiziaService notiziaService;
     private final S3Service s3Service;
     private final UtenteService utenteService; // ➕ aggiunto per controllare il ruolo
+    private final AiService aiService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NotiziaController.class);
 
-    public NotiziaController(NotiziaService notiziaService, S3Service s3Service, UtenteService utenteService) {
+    public NotiziaController(NotiziaService notiziaService, S3Service s3Service, UtenteService utenteService,AiService aiService) {
         this.notiziaService = notiziaService;
         this.s3Service = s3Service;
         this.utenteService = utenteService;
+        this.aiService = aiService;
     }
 
     @GetMapping
@@ -74,33 +76,40 @@ public class NotiziaController {
     public ResponseEntity<Notizia> creaNotiziaConImmagine(
             @RequestPart("notizia") String notiziaJson,
             @RequestPart("file") MultipartFile file,
-            @RequestParam("username") String username // ➕ chi manda la richiesta
+            @RequestParam("username") String username
     ) {
         try {
-            // Trova l'utente
             Optional<Utente> utenteOpt = utenteService.findByUsername(username);
             if (utenteOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
             Utente utente = utenteOpt.get();
-
-            // Controllo ruolo: solo gli ADMIN possono creare notizie
             if (!"ADMIN".equalsIgnoreCase(utente.getRuolo())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            // Parsing della notizia da JSON
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             Notizia notizia = mapper.readValue(notiziaJson, Notizia.class);
 
-            // Salva URL immagine
+            // Upload immagine su S3
             String url = s3Service.uploadFile(file);
             notizia.setImmagini(url);
 
-            // ➕ Salva l’autore
+            // Aggiungi username come creatore
             notizia.setCreatore(username);
+
+            // 🧠 Genera AI: titolo, riassunto, tag
+            String testoDaAnalizzare = notizia.getDescrizione();  // il campo descrizione è la base
+
+            String titolo = aiService.generaTitolo(testoDaAnalizzare);
+            String riassunto = aiService.generaRiassunto(testoDaAnalizzare);
+            String tag = aiService.generaTag(testoDaAnalizzare);
+
+            notizia.setTitolo(titolo);
+            notizia.setFonte(tag); // campo "fonte" usato per i tag
+            notizia.setDescrizione(riassunto); // sovrascriviamo con il riassunto
 
             Notizia creata = notiziaService.create(notizia);
             return ResponseEntity.status(HttpStatus.CREATED).body(creata);
@@ -113,4 +122,5 @@ public class NotiziaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }
