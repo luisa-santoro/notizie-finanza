@@ -25,6 +25,7 @@ public class OpenAiService {
                 "temperature", 0.7
         );
 
+
         String requestJson = mapper.writeValueAsString(requestBody);
 
         HttpRequest request = HttpRequest.newBuilder()

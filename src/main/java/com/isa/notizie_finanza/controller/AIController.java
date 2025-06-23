@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ai")
 public class AIController {
 
+
     private final OpenAiService openAiService;
 
     public AIController(OpenAiService openAiService) {
