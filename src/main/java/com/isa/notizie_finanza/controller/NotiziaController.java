@@ -18,6 +18,8 @@ import com.isa.notizie_finanza.model.Utente;
 import com.isa.notizie_finanza.service.NotiziaService;
 import com.isa.notizie_finanza.service.S3Service;
 import com.isa.notizie_finanza.service.UtenteService;
+import com.isa.notizie_finanza.service.OpenAiService;
+
 
 @RestController
 @RequestMapping("/notizie")
@@ -26,11 +28,11 @@ public class NotiziaController {
     private final NotiziaService notiziaService;
     private final S3Service s3Service;
     private final UtenteService utenteService; // ➕ aggiunto per controllare il ruolo
-    private final AiService aiService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NotiziaController.class);
 
-    public NotiziaController(NotiziaService notiziaService, S3Service s3Service, UtenteService utenteService,AiService aiService) {
+    public NotiziaController(NotiziaService notiziaService, S3Service s3Service, UtenteService utenteService,OpenAiService aiService) {
         this.notiziaService = notiziaService;
         this.s3Service = s3Service;
         this.utenteService = utenteService;
