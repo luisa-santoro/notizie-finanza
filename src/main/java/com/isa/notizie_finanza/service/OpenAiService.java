@@ -14,6 +14,37 @@ public class OpenAiService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    public String generateFromText(String prompt) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Corpo JSON della richiesta
+        Map<String, Object> message = Map.of("role", "user", "content", prompt);
+        Map<String, Object> requestBody = Map.of(
+                "model", "gpt-3.5-turbo",
+                "messages", List.of(message),
+                "temperature", 0.7
+        );
+
+        String requestJson = mapper.writeValueAsString(requestBody);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(ENDPOINT))
+                .header("Authorization", "Bearer " + API_KEY)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestJson))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // Parsing JSON per ottenere la risposta
+        Map<String, Object> result = mapper.readValue(response.body(), Map.class);
+        Map<String, Object> choice = ((List<Map<String, Object>>) result.get("choices")).get(0);
+        Map<String, String> messageMap = (Map<String, String>) choice.get("message");
+
+        return messageMap.get("content");
+    }
+
+
     public String generaTitolo(String testo) throws Exception {
         String prompt = "Genera un titolo accattivante per il seguente testo:\n" + testo;
         return generateFromText(prompt).trim();
@@ -30,3 +61,5 @@ public class OpenAiService {
     }
 
 }
+
+
