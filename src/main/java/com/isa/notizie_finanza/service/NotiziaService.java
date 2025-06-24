@@ -38,30 +38,31 @@ public class NotiziaService {
     }
 
     public Notizia update(Long id, Notizia notiziaAggiornata) {
-    try {
-        // Verifica se esiste la notizia
-        Notizia notiziaEsistente = notiziaRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Notizia non trovata con id " + id));
+        try {
+            // Verifica se esiste la notizia
+            Notizia notiziaEsistente = notiziaRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Notizia non trovata con id " + id));
 
-        // Controlla se la versione inviata corrisponde
-        if (!notiziaAggiornata.getVersion().equals(notiziaEsistente.getVersion())) {
-            throw new NotiziaConflictException("Versione non aggiornata, la notizia è stata modificata da un altro utente.");
+            // Controlla se la versione inviata corrisponde
+            if (!notiziaAggiornata.getVersion().equals(notiziaEsistente.getVersion())) {
+                throw new NotiziaConflictException("Versione non aggiornata, la notizia è stata modificata da un altro utente.");
+            }
+
+            // Aggiorna i campi
+            notiziaEsistente.setTitolo(notiziaAggiornata.getTitolo());
+            notiziaEsistente.setDescrizione(notiziaAggiornata.getDescrizione());
+            notiziaEsistente.setImmagini(notiziaAggiornata.getImmagini());
+            notiziaEsistente.setFonte(notiziaAggiornata.getFonte());
+            notiziaEsistente.setDataPubblicazione(notiziaAggiornata.getDataPubblicazione());
+            notiziaEsistente.setCategoria(notiziaAggiornata.getCategoria()); // AGGIUNTO
+
+            // Salva, Hibernate aggiornerà la versione incrementandola di 1
+            return notiziaRepository.save(notiziaEsistente);
+
+        } catch (ObjectOptimisticLockingFailureException e) {
+            throw new NotiziaConflictException("La notizia è stata modificata da un altro utente. Riprova.");
         }
-
-        // Aggiorna i campi
-        notiziaEsistente.setTitolo(notiziaAggiornata.getTitolo());
-        notiziaEsistente.setDescrizione(notiziaAggiornata.getDescrizione());
-        notiziaEsistente.setImmagini(notiziaAggiornata.getImmagini());
-        notiziaEsistente.setFonte(notiziaAggiornata.getFonte());
-        notiziaEsistente.setDataPubblicazione(notiziaAggiornata.getDataPubblicazione());
-
-        // Salva, Hibernate aggiornerà la versione incrementandola di 1
-        return notiziaRepository.save(notiziaEsistente);
-
-    } catch (ObjectOptimisticLockingFailureException e) {
-        throw new NotiziaConflictException("La notizia è stata modificata da un altro utente. Riprova.");
     }
-}
 
 
 }
