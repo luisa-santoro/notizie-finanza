@@ -40,18 +40,16 @@ public class NotiziaService {
 
     public Notizia update(Long id, Notizia notiziaAggiornata) {
         try {
+            // Verifica se esiste la notizia
             Notizia notiziaEsistente = notiziaRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Notizia non trovata con id " + id));
 
-            // Debug: stampa versioni anche se null
-            System.out.println(" Versione ricevuta (potrebbe essere null): " + notiziaAggiornata.getVersion());
+            // Debug: stampa le versioni
+            System.out.println(" Versione ricevuta: " + notiziaAggiornata.getVersion());
             System.out.println(" Versione nel DB: " + notiziaEsistente.getVersion());
 
-            // Se la versione ricevuta è null → errore esplicito
-            if (notiziaAggiornata.getVersion() == null) {
-                throw new NotiziaConflictException("La versione inviata è nulla. Verifica il JSON.");
-            }
 
+            // Controlla se la versione inviata corrisponde
             if (!notiziaAggiornata.getVersion().equals(notiziaEsistente.getVersion())) {
                 throw new NotiziaConflictException("Versione non aggiornata, la notizia è stata modificata da un altro utente.");
             }
@@ -62,15 +60,15 @@ public class NotiziaService {
             notiziaEsistente.setImmagini(notiziaAggiornata.getImmagini());
             notiziaEsistente.setFonte(notiziaAggiornata.getFonte());
             notiziaEsistente.setDataPubblicazione(notiziaAggiornata.getDataPubblicazione());
-            notiziaEsistente.setCategoria(notiziaAggiornata.getCategoria());
+            notiziaEsistente.setCategoria(notiziaAggiornata.getCategoria()); // AGGIUNTO
 
+            // Salva, Hibernate aggiornerà la versione incrementandola di 1
             return notiziaRepository.save(notiziaEsistente);
 
         } catch (ObjectOptimisticLockingFailureException e) {
             throw new NotiziaConflictException("La notizia è stata modificata da un altro utente. Riprova.");
         }
     }
-
 
 
 }
