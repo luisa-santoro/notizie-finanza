@@ -43,12 +43,13 @@ public class NotiziaController {
 
 
     // 🔁 REDIRECT /notizie → /notizie/tutte
-    @GetMapping
+    @GetMapping(value = {"", "/"})
     public ResponseEntity<Void> redirectNotizie() {
         return ResponseEntity.status(302)
                 .header("Location", "/notizie/tutte")
                 .build();
     }
+
 
     @GetMapping("/tutte")
     public List<Notizia> getAll() {
