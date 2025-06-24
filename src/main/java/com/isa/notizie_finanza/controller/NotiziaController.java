@@ -42,6 +42,11 @@ public class NotiziaController {
     }
 
 
+    // 🔁 REDIRECT /notizie → /notizie/tutte
+    @GetMapping
+    public RedirectView redirectNotizie() {
+        return new RedirectView("/notizie/tutte");
+    }
 
     @GetMapping("/tutte")
     public List<Notizia> getAll() {
