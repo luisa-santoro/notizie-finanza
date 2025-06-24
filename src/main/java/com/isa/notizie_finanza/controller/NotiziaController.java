@@ -40,7 +40,7 @@ public class NotiziaController {
         this.aiService = aiService;
     }
 
-    @GetMapping
+    @GetMapping("/tutte")
     public List<Notizia> getAll() {
         return notiziaService.getAll();
     }
@@ -50,6 +50,7 @@ public class NotiziaController {
         Optional<Notizia> notizia = notiziaService.getById(id);
         return notizia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Notizia> updateNotizia(@PathVariable Long id, @RequestBody Notizia notiziaAggiornata) {
