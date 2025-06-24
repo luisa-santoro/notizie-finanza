@@ -19,6 +19,7 @@ import com.isa.notizie_finanza.service.NotiziaService;
 import com.isa.notizie_finanza.service.S3Service;
 import com.isa.notizie_finanza.service.UtenteService;
 import com.isa.notizie_finanza.service.OpenAiService;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @RestController
@@ -39,6 +40,8 @@ public class NotiziaController {
         this.utenteService = utenteService;
         this.aiService = aiService;
     }
+
+
 
     @GetMapping("/tutte")
     public List<Notizia> getAll() {
@@ -128,3 +131,5 @@ public class NotiziaController {
     }
 
 }
+
+
