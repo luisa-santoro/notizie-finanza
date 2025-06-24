@@ -25,6 +25,7 @@ public class NotiziaService {
         return notiziaRepository.findAll();
     }
 
+
     public Optional<Notizia> getById(Long id) {
         return notiziaRepository.findById(id);
     }
