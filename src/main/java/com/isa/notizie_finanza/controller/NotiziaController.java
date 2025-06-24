@@ -44,8 +44,10 @@ public class NotiziaController {
 
     // 🔁 REDIRECT /notizie → /notizie/tutte
     @GetMapping
-    public RedirectView redirectNotizie() {
-        return new RedirectView("/notizie/tutte");
+    public ResponseEntity<Void> redirectNotizie() {
+        return ResponseEntity.status(302)
+                .header("Location", "/notizie/tutte")
+                .build();
     }
 
     @GetMapping("/tutte")
