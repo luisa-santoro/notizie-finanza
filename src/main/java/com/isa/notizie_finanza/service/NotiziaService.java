@@ -44,6 +44,11 @@ public class NotiziaService {
             Notizia notiziaEsistente = notiziaRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Notizia non trovata con id " + id));
 
+            // Debug: stampa le versioni
+            System.out.println(" Versione ricevuta: " + notiziaAggiornata.getVersion());
+            System.out.println(" Versione nel DB: " + notiziaEsistente.getVersion());
+
+
             // Controlla se la versione inviata corrisponde
             if (!notiziaAggiornata.getVersion().equals(notiziaEsistente.getVersion())) {
                 throw new NotiziaConflictException("Versione non aggiornata, la notizia è stata modificata da un altro utente.");
