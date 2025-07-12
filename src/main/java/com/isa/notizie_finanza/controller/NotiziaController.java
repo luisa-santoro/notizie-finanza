@@ -56,6 +56,21 @@ public class NotiziaController {
         return notiziaService.getAll();
     }
 
+    // Ricerca avanzata delle notizie
+    @GetMapping("/cerca")
+    public ResponseEntity<List<Notizia>> cercaNotizie(
+            @RequestParam(required = false) String titolo,
+            @RequestParam(required = false) String descrizione,
+            @RequestParam(required = false) String tag,
+            @RequestParam(required = false) Integer anno,
+            @RequestParam(required = false) Integer mese,
+            @RequestParam(required = false) Integer giorno
+    ) {
+        List<Notizia> risultati = notiziaService.cercaNotizie(titolo, descrizione, tag, anno, mese, giorno);
+        return ResponseEntity.ok(risultati);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Notizia> getById(@PathVariable Long id) {
         Optional<Notizia> notizia = notiziaService.getById(id);

@@ -71,6 +71,12 @@ public class NotiziaService {
         }
     }
 
+//  Metodo di ricerca avanzata
+    public List<Notizia> cercaNotizie(String titolo, String descrizione, String tag,
+                                      Integer anno, Integer mese, Integer giorno) {
+        return notiziaRepository.ricercaCompleta(titolo, descrizione, tag, anno, mese, giorno);
+    }
+
 
 
 }
