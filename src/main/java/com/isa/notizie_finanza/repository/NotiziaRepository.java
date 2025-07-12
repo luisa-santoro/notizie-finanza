@@ -12,7 +12,7 @@ public interface NotiziaRepository extends JpaRepository<Notizia, Long> {
     @Query("SELECT n FROM Notizia n WHERE " +
             "(:titolo IS NULL OR LOWER(n.titolo) LIKE LOWER(CONCAT('%', :titolo, '%'))) AND " +
             "(:descrizione IS NULL OR LOWER(n.descrizione) LIKE LOWER(CONCAT('%', :descrizione, '%'))) AND " +
-            "(:tag IS NULL OR LOWER(n.fonte) LIKE LOWER(CONCAT('%', :tag, '%'))) AND " +
+            "(:tag IS NULL OR LOWER(n.tag) LIKE LOWER(CONCAT('%', :tag, '%'))) AND " +
             "(:anno IS NULL OR FUNCTION('YEAR', n.dataPubblicazione) = :anno) AND " +
             "(:mese IS NULL OR FUNCTION('MONTH', n.dataPubblicazione) = :mese) AND " +
             "(:giorno IS NULL OR FUNCTION('DAY', n.dataPubblicazione) = :giorno)")

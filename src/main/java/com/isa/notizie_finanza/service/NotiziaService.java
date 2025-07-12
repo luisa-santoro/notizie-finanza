@@ -60,7 +60,7 @@ public class NotiziaService {
             notiziaEsistente.setTitolo(notiziaAggiornata.getTitolo());
             notiziaEsistente.setDescrizione(notiziaAggiornata.getDescrizione());
             notiziaEsistente.setImmagini(notiziaAggiornata.getImmagini());
-            notiziaEsistente.setFonte(notiziaAggiornata.getFonte());
+            notiziaEsistente.setTag(notiziaAggiornata.getTag());
             notiziaEsistente.setDataPubblicazione(notiziaAggiornata.getDataPubblicazione());
             notiziaEsistente.setCategoria(notiziaAggiornata.getCategoria());
 

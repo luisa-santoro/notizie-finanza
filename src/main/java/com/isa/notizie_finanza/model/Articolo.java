@@ -22,7 +22,7 @@ public class Articolo {
     @Column(columnDefinition = "TEXT")
     private String contenuto;
 
-    private String fonte;
+    private String tag;
 
     private String categoria;
 
@@ -56,11 +56,11 @@ public class Articolo {
         this.contenuto = contenuto;
     }
 
-    public String getFonte() {
-        return fonte;
+    public String getTag() {
+        return tag;
     }
-    public void setFonte(String fonte) {
-        this.fonte = fonte;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getCategoria() {

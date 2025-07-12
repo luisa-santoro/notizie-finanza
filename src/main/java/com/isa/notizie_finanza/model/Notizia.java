@@ -29,7 +29,7 @@ public class Notizia {
     
     private String immagini;
 
-    private String fonte;
+    private String tag;
 
     private LocalDateTime dataPubblicazione;
 
@@ -86,11 +86,11 @@ public class Notizia {
         this.immagini = immagini;
     }
 
-    public String getFonte() {
-        return fonte;
+    public String getTag() {
+        return tag;
     }
-    public void setFonte(String fonte) {
-        this.fonte = fonte;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public LocalDateTime getDataPubblicazione() {

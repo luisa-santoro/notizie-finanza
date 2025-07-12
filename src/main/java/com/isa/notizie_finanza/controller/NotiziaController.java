@@ -138,7 +138,7 @@ public class NotiziaController {
             String tag = aiService.generaTag(testoDaAnalizzare);
 
             notizia.setTitolo(titolo);
-            notizia.setFonte(tag); // campo "fonte" usato per i tag
+            notizia.setTag(tag); // campo "fonte" usato per i tag
             notizia.setDescrizione(riassunto); // sovrascriviamo con il riassunto
 
             Notizia creata = notiziaService.create(notizia);
